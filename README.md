@@ -46,3 +46,18 @@ Here is some Example:
 ![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/returns%20of%20btc%20dash%20eth.png?style=centerme)
 
 ![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/volatility%20of%20dcr%20xem%20ltc.png?style=centerme)
+
+## 4. Compare different currency-pairs return, to see how much is the correlation, and how to reduce risk by investing in different categories of currencies
+some currencies pairs are highly correlated, if a investro want to reduce risk via diversification, they should invest in a few currencies that are not highly correlated, so when 1 of the currency goes down dramatically in price, the others would be affected so much, generally, there are a few buckets of currencies: coins, ICO platmorms and tockens issued on those platforms. for example, bitcoin and dash are coins, OMG is a tocken issued on Ethereum platform.
+currencies in the same bucket tend to rise together in an early stage and compete with each other in later stage, crypto market is still booming, so at this stage, these currencies are tennd to rise and fall together
+
+for Example:
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20eth.png?style=centerme)
+
+Bitcoin and ethereum belong to 2 different catagories, one is a coin, the other is a platform, so as espected, their markecap only has a correlation of 0.24, the two are not strongly connected, it's wise to invest in both of them to reduce risk
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20doge.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20ltc.png?style=centerme)
+
+on the other hand, Bitcoin dogecoin and litecoin are all simple coins, their price is highly related to each other, the corelation of btc-doge and btc-ltc pairs are pretty significant, a portfolio should not only consist of this kind of currencies, because they tend to rise and fall together, the risk could be higher
