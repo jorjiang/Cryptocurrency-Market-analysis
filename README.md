@@ -40,4 +40,9 @@ As shown in the charts above, we can see both currency had a incredible increase
 
   - Using the already calculated statistics, we can plot daily market capitalisations, returns and volatilities of arbitrary currencies on the same time axis, and compare them with each other
 
-  	Example: **Bitcoin, Ethereum and Ethereum classic and Dash**.
+Here is some Example:
+![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/marketcap%20of%20btc%20dash%20eth%20etc.png?style=centerme)
+
+![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/returns%20of%20btc%20dash%20eth.png?style=centerme)
+
+![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/volitality%20of%20dcr%20xem%20ltc.png?style=centerme)
