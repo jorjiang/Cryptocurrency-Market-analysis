@@ -1,0 +1,537 @@
+---
+title: "Cryptocurrency Market Analysis"
+output: html_document
+---
+
+
+
+```{r setup, include=FALSE}
+# libraries used========================================
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(gtable)
+library(grid)
+library(plyr)
+library(reshape2)
+library(dplyr)
+library(corrplot)
+library(ggrepel)
+library(plotly)
+library(gtrendsR)
+
+# defualt R markdown setting===============================
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+
+#================================================================
+# data cleaning and merging
+dir.crypto <- "d://Users//beautifultroll//Documents//GitHub//Cryptocurrency-Market-analysis//"
+   
+# a funciton read and tidy coin date
+import_coin <- function(string) {
+  f <- read.csv(string)
+  f$date <- ymd(f$date)
+  f <- select(f,-X) %>%  
+     dplyr::rename(txVolume = txVolume.USD.,
+           marketcap = marketcap.USD.,
+           price = price.USD.,
+           exchangeVolume = exchangeVolume.USD.)
+}
+ 
+
+
+
+
+#read coin date
+btc <- import_coin("btc.csv")
+dash <- import_coin("dash.csv")
+btg <- import_coin("btg.csv")
+dcr <- import_coin("dcr.csv")
+dgb<- import_coin("dgb.csv")
+doge<- import_coin("doge.csv")
+etc<- import_coin("etc.csv")
+eth<- import_coin("eth.csv")
+ltc<- import_coin("ltc.csv")
+xem<- import_coin("xem.csv")
+xmr<- import_coin("xmr.csv")
+xvg<- import_coin("xvg.csv")
+zec<- import_coin("zec.csv")
+bch<- import_coin("zec.csv")
+
+# join data ==================================================
+join.data <- function(property){
+  joined.data <- btc %>%   
+    select(date, btc = c(property)) %>%
+      left_join(select(bch, date, bch = c(property)), by = "date") %>% 
+      left_join(select(dash, date, dash = c(property)), by = "date") %>% 
+      left_join(select(btg, date, btg = c(property)), by = "date") %>% 
+      left_join(select(dcr, date, dcr = c(property)), by = "date") %>% 
+      left_join(select(dgb, date, dgb = c(property)), by = "date") %>%
+      left_join(select(doge, date, doge= c(property)), by = "date") %>%
+      left_join(select(etc, date, etc = c(property)), by = "date") %>%
+      left_join(select(eth, date, eth = c(property)), by = "date") %>% 
+      left_join(select(ltc, date, ltc = c(property)), by = "date") %>% 
+      left_join(select(zec, date, zec = c(property)), by = "date") %>% 
+      left_join(select(xem, date, xem = c(property)), by = "date") %>% 
+      left_join(select(xmr, date, xmr = c(property)), by = "date") %>% 
+      left_join(select(xvg, date, xvg = c(property)), by = "date")
+  joined.data[joined.data == 0] <- NA
+  return(joined.data)
+}
+
+#join a certain property of a currency into one dateframe 
+marketcap <- join.data("marketcap")
+txVolume  <- join.data("txVolume")
+fees      <- join.data("fees")
+txCount   <- join.data("txCount")
+
+
+# combine all data in a list
+crypto <- list(btc = btc, bch = bch, dash = dash, btg = btg,
+               dcr = dcr, dgb = dgb, doge = doge, etc = etc,
+               eth = eth, ltc = ltc, zec = zec, xem = xem,
+               xmr = xmr, xvg = xvg)
+
+
+# please run gTrendsData.r to get the google trends data==============
+search <- read.csv("search.csv")
+search$date <- ymd(search$date)
+
+```
+
+```{r index calculation, include=FALSE}
+# index fuctions
+
+returns <- function(data){
+  returns = c(0,diff(data)/data[-length(data)])
+}
+logreturns <- function(data){
+  logreturns = c(0,log(data[-1]/data[-length(data)]))
+}
+volatility.30d <- function(data){
+  sapply(1:length(logreturns(data)), FUN=function(i) sd(logreturns(data)[(max(i-30,0):i)]))*sqrt(365)
+}
+volatility.90d <- function(data){
+  sapply(1:length(logreturns(data)), FUN=function(i) sd(logreturns(data)[(max(i-90,0):i)]))*sqrt(365)
+}
+market.data <- function(data) {
+  market <- data %>%
+    select(date, marketcap) %>% 
+    mutate(returns = returns(marketcap)) %>% 
+    mutate(logreturns = logreturns(marketcap)) %>% 
+    mutate(volatility.30d = volatility.30d(marketcap)) %>% 
+    mutate(volatility.90d = volatility.90d(marketcap))
+}
+
+# a function turn parameter name into string
+
+
+
+```
+```{r basic price analysis, include=FALSE}
+# plot individual currency
+
+currency.plot <- function(data, name){
+    p1 <- ggplot(data, aes(date, marketcap)) +
+      geom_line(size = 1.05, color = "deepskyblue4")+
+      labs(x="Date", y="Market cap",title = name) +
+      theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank())
+    p2 <- ggplot(data, aes(date, logreturns)) +
+      geom_line(size = 1.05, color = "darkolivegreen4") + labs(x="Date", y="Log returns") +
+      theme(axis.title.x=element_blank(), axis.text.x=element_blank(),
+            axis.ticks.x=element_blank())
+    p3 <- ggplot(data, aes(date, volatility.30d)) +
+      geom_line(size = 1.05, color = "darkred") + labs(x="Date", y="Annualized volatility")
+    g1 <- ggplotGrob(p1)
+    g2 <- ggplotGrob(p2)
+    g3 <- ggplotGrob(p3)
+    g <- rbind(g1, g2, g3, size="first")# stack the plots
+    g$widths <- unit.pmax(g1$widths, g2$widths, g3$widths) # use the largest widths
+    # center the legend vertically
+    g$layout[grepl("guide", g$layout$name),c("t","b")] <- c(1,nrow(g))
+    grid.newpage()
+    grid.draw(g)
+    
+    filename <- paste(dir.crypto, "simple market analysis_", name, ".png", sep = "")
+    ggsave(filename, plot = g, width=8, height=6, dpi=100, units="in")
+
+  }
+
+# ============================================
+# compare the marketcap of different currencies
+  currencies.plot <- function(data, names){
+    #ggplot needs a dataframe
+  theme <- deparse(substitute(data))
+  data <- select(data,date,names)
+  data <- as.data.frame(data)
+  #id variable for position in matrix 
+  # data$id <- data$date 
+  #reshape to long format
+  plot_data <- melt(data,id.var="date")
+  
+  #plot
+  p <- ggplot(plot_data, aes(x=date,y=value,group=variable,colour=variable)) +
+     geom_line(aes(), size = 1.15, alpha = 0.65) +
+    scale_y_log10()+
+      labs(x="Date", y=paste(theme, "(log)"), title = paste(theme, "Comparison of ",
+                                                 paste(names,collapse = ",")))+
+     labs(colour='Currencies')+
+      theme(plot.title = element_text(hjust = 0.5))
+  
+    filename <- paste(dir.crypto, theme, " of ", paste(names,collapse = " "), ".png", sep = "")
+    ggsave(filename, width=8, plot = p, height=6, dpi=100, units="in")
+    p
+  }
+  
+# compare logreturns of different currencies
+  currencies.logreturns.plot <- function(data, names){
+    
+    data <- data %>% 
+      mutate_all(returns) %>% 
+      mutate(date = marketcap$date)
+    
+  data <- select(data,date,names)
+  data <- as.data.frame(data)
+  #id variable for position in matrix 
+  # data$id <- data$date 
+  #reshape to long format
+  plot_data <- melt(data,id.var="date")
+
+  
+  #plot
+  p <- ggplot(plot_data, aes(x=date,y=value,group=variable,colour=variable)) +
+     geom_line(aes(), size = 1.15, alpha = 0.65)+
+      labs(x="Date", y="Logreturns", title = paste("Logreturns Comparison of ",
+                                                 paste(names,collapse = ",")))+
+     labs(colour='Currencies')+
+      theme(plot.title = element_text(hjust = 0.5))
+  
+  filename <- paste(dir.crypto,"returns", " of ", paste(names,collapse = " "), ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+  }
+  
+  
+# compare volitality of different currencies
+  currencies.volitality.plot <- function(data, names){
+    
+    data <- data %>%
+      select(-date) %>% 
+      mutate_all(volatility.30d) %>% 
+      mutate(date = marketcap$date)
+  data$date = marketcap$date  
+  data <- select(data,date,names)
+  data <- as.data.frame(data)
+  #id variable for position in matrix 
+  # data$id <- data$date 
+  #reshape to long format
+  plot_data <- melt(data,id.var="date")
+  #plot
+  p <- ggplot(plot_data, aes(x=date,y=value,group=variable,colour=variable)) +
+     geom_line(aes(), size = 1.15, alpha = 0.65)+
+      labs(x="Date", y="Volitality", title = paste("Volitality Comparison of",
+                                                 paste(names,collapse = ", ")))+
+      labs(colour='Currencies')+
+      theme(plot.title = element_text(hjust = 0.5))
+  
+    filename <- paste(dir.crypto,"volitality",
+                      " of ", paste(names,collapse = " "), ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+  }
+  
+# compare returns of two Currencies
+  compare.returns <- function(data, c1, c2){
+    data1 <- data %>%
+    select(-date)%>% 
+    select(c(c1,c2)) %>%
+    mutate_all(returns)
+
+    data1 <- na.omit(data1)
+    
+    p <- ggplot(data1,aes(data1[,1], data1[,2])，na.rm = TRUE)+
+    geom_point(size = 3, shape = 18, alpha = 0.35, color = "darkturquoise",outlier.size = 0.1)+
+      geom_smooth(color = "gold4")+
+      labs(x= c1, y= c2, title = paste("Returns Comparison of ", 
+                                       c1," and ", c2, 
+                                       " (cor = ",
+                                       round(cor(data1[,1], data1[,2]), digits = 2),
+                                       ")", sep = ""))+
+      theme(plot.title = element_text(hjust = 0.5))+
+      coord_cartesian(xlim = c(-0.35, 0.35), ylim = c(-0.35, 0.35))
+    
+    
+    
+    
+    filename <- paste(dir.crypto,"return",
+                      " of ", c1, " ", c2, ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    
+    p
+  }
+  
+  # corplot
+  corplot.all.save <- function(data){
+    theme <- deparse(substitute(data))
+    data <- data %>% 
+      filter(date >= ymd("2017-01-01"))
+    data[is.na(data)] <- 0
+    M <- cor(data[ ,-1])
+    
+    filename1 <- paste(dir.crypto, "corall ", theme,".png", sep = "")
+    png(filename=filename1, width=800, height=700, units="px")
+    corrplot(M, method = "ellipse")
+
+  }
+  corplot.all.show <- function(data){
+    theme <- deparse(substitute(data))
+    data <- data %>%
+      filter(date >= ymd("2017-01-01"))
+    data[is.na(data)] <- 0
+    M <- cor(data[ ,-1])
+    corrplot(M, method = "ellipse")
+
+  }
+
+  # correlation of 2 currencies over time
+  cor.two.currency <- function(data, c1, c2, mindays, maxdays){
+    data <- data %>%
+    select(date, c(c1,c2))
+    
+    data$corr <- sapply(1:nrow(data), FUN=function(i) if(i<mindays) return(NA) 
+                        else cor(data[max(1,i-maxdays):i,2],data[max(1,i-maxdays):i,3]))
+    data <- filter(data, !is.na(corr))
+    p <- ggplot(data, aes(date, corr))+
+      geom_line(na.rm = T, size = 1.15, alpha = 0.65, color = "darkgreen") +
+      labs(x="Date", y="Correlation", 
+           title=paste("Correlation over time: ", paste(c(c1, c2), collapse=", ")))
+    
+    filename <- paste(dir.crypto,"return",
+                      " of ", c1, " ", c2, ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+  }
+  
+  
+```
+```{r performance analysis, include=FALSE}
+# compare performence in terms of all cryptocurrenies in terms of transaction and marketcap
+#         data.list     is a list comtainning data of all cryptocurrencies
+#         samplerange   is the time period choosen to calculate the average number of a property, for
+#                       example if samplerange is set to be 30, the marketcap performance is calculated
+#                       by the average of the recent 30 day marketcap substract the average marketcap
+#                       of the first 30 days
+compare.performance <- function(data.list, samplerange, p1, p2, p3){
+  
+  performance <- matrix(0,length(data.list), ncol(btc)-1)
+
+colnames(performance) <- colnames(btc)[-1]
+rownames(performance) <- names(data.list)
+
+performance <- as.data.frame(performance)
+performance$marketcap <- sapply(1:nrow(performance), FUN = function(i) +
+                                  mean(tail(crypto[[i]]["marketcap"], samplerange)$marketcap)/
+                                  mean(head(crypto[[i]]["marketcap"], samplerange)$marketcap)-1)
+performance$txVolume <- sapply(1:nrow(performance), FUN = function(i) +
+                                  mean(tail(crypto[[i]]["txVolume"], samplerange)$txVolume)/
+                                  mean(head(crypto[[i]]["txVolume"], samplerange)$txVolume)-1)
+
+performance$txCount <- sapply(1:nrow(performance), FUN = function(i) +
+                                 mean(tail(crypto[[i]]["txCount"], samplerange)$txCount)/
+                                 mean(head(crypto[[i]]["txCount"], samplerange)$txCount)-1)
+performance$fees <- sapply(1:nrow(performance), FUN = function(i) +
+                                mean(tail(crypto[[i]]["fees"], samplerange)$fees)/
+                                mean(head(crypto[[i]]["fees"], samplerange)$fees)-1)
+performance$exchangeVolume <- sapply(1:nrow(performance), FUN = function(i) +
+                             mean(tail(crypto[[i]]["exchangeVolume"], samplerange)$exchangeVolume)/
+                             mean(head(crypto[[i]]["exchangeVolume"], samplerange)$exchangeVolume)-1)
+performance$age <- sapply(1:nrow(performance), FUN = function(i) +
+                            tail(crypto[[i]]["date"], 1)$date - head(crypto[[i]]["date"], 1)$date)
+performance$current.marketcap <- sapply(1:nrow(performance), FUN = function(i)+
+                                          mean(tail(crypto[[i]]["marketcap"], samplerange)$marketcap))
+
+
+
+
+
+p <- ggplot(performance, na.rm = TRUE)+
+  geom_point(aes(eval(parse(text = p1)), 
+                 eval(parse(text = p2)), 
+                      size = eval(parse(text = p3)), colour = rownames(performance)),
+                      alpha = 0.5)+
+  guides(colour=FALSE)+
+  geom_text_repel(aes(eval(parse(text = p1)), eval(parse(text = p2)),
+                      label=rownames(performance)))+
+    scale_y_log10()+
+    scale_x_log10()+
+    scale_size(range = c(2, 12))+
+    labs(
+      title = paste("Comparison of all currencies in", p1, " and ", p2), 
+      x = paste(p1,"(log)"), y = paste(p2,"(log)"), size = paste(p3))+
+    theme(plot.title = element_text(hjust = 0.5))
+filename <- paste(dir.crypto,"performance",
+                      "_", paste(p1, p2, p3, sep = "_"), ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+  
+}
+# ===========================================================================
+# comparison of two properties of one currency and calculate it's correlation
+prop.comparison <- function(currency, p1,p2){
+    theme <- deparse(substitute(currency))
+
+  p <- ggplot(currency, aes(eval(parse(text = p1)), eval(parse(text = p2)), color = date))+
+    geom_point(size = 1.55, alpha = 0.25)+
+    geom_smooth(color = "gold3")+
+    scale_y_log10()+
+    scale_x_log10()+
+    labs(title = paste(p1," and ", p2, " of ", deparse(substitute(currency)),
+                       " (cor = ", round(cor(currency[p1], currency[p2]), digits = 2),")"),
+             x = p1, y = p2)+
+    theme(plot.title = element_text(hjust = 0.5))
+  filename <- paste(dir.crypto,"prop_comparison",
+                      "_", paste(theme, p1, p2, sep = "_"), ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+}
+# comparison of two properties of one currency across time in the same graph
+pro.comparison.overtime <- function(currency, p1,p2){
+  theme <- deparse(substitute(currency))
+  a = max(currency[p2][ ,1])/max(currency[p1][ ,1])
+  p <- ggplot(currency)+
+    geom_line(aes(date, eval(parse(text = p1))*a, color = p1), size = 1)+
+    geom_line(aes(date, eval(parse(text = p2)), color = p2), size = 1)+
+    scale_y_continuous(sec.axis = sec_axis( ~./a, name = p1))+
+    scale_colour_manual(values = c("blue", "red"))+
+    labs(title = paste(p1," and ", p2, " of ", deparse(substitute(currency)),
+                       " (cor = ", round(cor(currency[p1], currency[p2]), digits = 2),")"),
+         x = "date", y = p2, color = NULL)+
+    scale_colour_manual(values = c("darkseagreen4", "goldenrod3"))+
+    theme(plot.title = element_text(hjust = 0.5),
+          legend.position = c(0.15, 0.8))
+  
+    filename <- paste(dir.crypto,"prop_com_overtime",
+                      "_", paste(theme, p1, p2, sep = "_"), ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+}
+
+```
+
+```{r gTrends, echo = FALSE}
+# this part contains functions compare coins performance and it's google search results
+# compare relative popularities of different currencies
+currencies.search <- function(popularity, names){
+  currencies.plot(popularity, names)
+}
+
+
+#compare 1 property of a currency and it's popularity and calculate the correlation of them
+popularity.vs.market <- function(currency, property){
+  theme <- deparse(substitute(currency))
+  search.data <- search %>% 
+    select(date, hits = c(deparse(substitute(btc))))
+  search.data$date <- ymd(search.data$date)
+  
+  currency.data <- currency %>% 
+    select(date, c(property))
+    
+  compare.data <-  left_join(search.data, currency.data, by = "date") %>% 
+  remove_missing() 
+
+  a = max(compare.data[3])/100
+  
+  # plot
+  
+  p <- ggplot(compare.data)+
+    geom_line(aes(date, hits*a, color = "popularity"), size = 1)+
+    geom_line(aes(date, compare.data[3], color = property), size = 1)+
+    scale_y_continuous(sec.axis = sec_axis( ~./a, name = "Popularity"))+
+    scale_colour_manual(values = c("blue", "red"))+
+    labs(title = paste("Popularity and ", property, " of ", theme,
+                       " (cor = ", round(cor(compare.data[ ,2], compare.data[ ,3]), digits = 2),")",
+                       sep = ""),
+         x = "date", y = property, color = NULL)+
+    scale_colour_manual(values = c("darkseagreen4", "goldenrod3"))+
+    theme(plot.title = element_text(hjust = 0.5),
+          legend.position = c(0.15, 0.8))
+  
+   filename <- paste(dir.crypto,"popularity.vs.market",
+                      "_", paste(theme, property, sep = "_"), ".png", sep = "")
+    ggsave(filename, plot = p, width=8, height=6, dpi=100, units="in")
+    p
+}
+  
+
+```
+
+```{r, echo = FALSE}
+# show individual currency
+currency.plot(market.data(btc), "Bitcoin")
+currency.plot(market.data(dash),"Dash")
+
+# compare different currencies
+currencies.plot(marketcap, c("btc","dash","eth","etc"))
+currencies.logreturns.plot(marketcap, c("btc","dash","eth"))
+currencies.volitality.plot(marketcap, c("dcr","xem","ltc"))
+
+# compare one property and calculate of 2 currencies
+compare.returns(marketcap, "btc","eth")
+compare.returns(marketcap, "btc","doge")
+compare.returns(marketcap, "btc","ltc")
+
+
+# compare correlations of all currencies in marketcap and other properties
+corplot.all.show(marketcap)
+corplot.all.show(fees)
+
+corplot.all.save(marketcap)
+corplot.all.save(fees)
+
+# plot the marketcap of two currencies and calculate the correlation
+cor.two.currency(marketcap, "btc", "eth", 10, 60)
+cor.two.currency(marketcap, "btc", "eth", 10, 120)
+
+cor.two.currency(marketcap, "btc", "dash", 10, 60)
+cor.two.currency(marketcap, "btc", "dash", 10, 120)
+
+
+# plot a certain property of several currencies and put them in one chart
+currencies.plot(txVolume, c("btc","dash","eth","ltc"))
+currencies.plot(fees, c("btc","dash","eth","xvg"))
+currencies.plot(txCount, c("btc","dcr","zec","xvg"))
+
+# plot the performance of all crypto currencies
+compare.performance(crypto, 30, "txVolume", "marketcap","current.marketcap")
+compare.performance(crypto, 30, "txVolume", "marketcap","age")
+
+compare.performance(crypto, 30, "exchangeVolume", "marketcap","current.marketcap")
+
+# plot the relation of two properties of a ceritain currency and calulate the correlation
+prop.comparison(btc, "txVolume","marketcap")
+prop.comparison(eth, "txVolume","marketcap")
+prop.comparison(dash, "txVolume","marketcap")
+
+# plot a few properties of a certain currency compare them in the same chart
+pro.comparison.overtime(dash, "txVolume", "marketcap")
+pro.comparison.overtime(eth, "txVolume", "marketcap")
+pro.comparison.overtime(btc, "txVolume", "marketcap")
+
+
+# plot the relative popularities of several currency
+currencies.search(search, c("btc", "eth", "dash"))
+
+# plot the popularity and one property of a certain currency
+popularity.vs.market(btc, "txVolume")
+popularity.vs.market(btc, "marketcap")
+
+popularity.vs.market(dash, "marketcap")
+popularity.vs.market(dash, "txVolume")
+
+
+```
+
+
