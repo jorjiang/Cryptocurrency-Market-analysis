@@ -19,10 +19,13 @@ This is still a work in progress. Steps taken so far:
   - Daily Exchange volume;
   - Daily closeing Marketcap;
   - Daily transaction fees;
+  - Weekly searching data from google trends, under the category "news"
 
 
+In this research we have choosen 14 currencies that is trading in our WeChat platform:
+btc, bch, dash, btg, dcr, dgb, doge, etc, eth, ltc, zec, xem, xmr, xvg
 
-Data time span: from April 2013 or the creation of the currency till 22.01.2018
+Time span: from April 2013 or the creation of the currency till 22.01.2018
 
 ### 2. Simple analysis for each individual currency.
   - **Market capitalisation**: A given currency's valuation, i.e., closing price multiplied with circulating supply as given by coinmarketcap. *Please note that this is a controversial metric. for instance some currency like Ripple, the circulating supply is much lower than the total supply, the evaluation of it's marketcap is much lower if calculated with circulating supply, but if calculated with total supply, it will surpass Bitcoin and become the biggest cryptocurrency in the whole market* We did not choose the price as a bench mark, because the price alone does not make much sense without taking the circulation amount into account.
@@ -61,3 +64,28 @@ Bitcoin and ethereum belong to 2 different catagories, one is a coin, the other 
 ![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20ltc.png?style=centerme)
 
 on the other hand, Bitcoin dogecoin and litecoin are all simple coins, their price is highly related to each other, the corelation of btc-doge and btc-ltc pairs are pretty significant, a portfolio should not only consist of this kind of currencies, because they tend to rise and fall together, the risk could be higher
+
+
+to get a overview of the correlation of all currency-pairs, we created a correlation matrix to demonstrate that.
+  - on the x-axis and y-axis are the 14 cryptocurrencies available on our WeChat platform.
+  - the correlation of each currency-pair is represented by the ellipses inside the box.
+  - the roundness and color represented the value of correlation of each currency-pair.
+  - the narrower the ellipse, the higher the correlation, also the darker the color, the higher the correlation
+  - blue ellipse means positively related, red means netatively related
+ 
+Here are two examples of correlation matrix of marketcap and fees of all 14 currencies
+
+###                               Marketcap correlation matrix of all 14 currencies
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/corall%20marketcap.png?style=centerme)
+
+###                            Transaction fees correlation matrix of all 14 currencies
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/corall%20fees.png?style=centerme)
+
+  - from the first chart, we see, the one with highest correlations are coins like bitcoin(btc), litecoin(ltc) and zcach(zec), they bellow to the same category
+  - because we are still in an booming market, the competetion among currencies are still really low, we don't see any negtively related currencies
+  - it is wise to invest in thoes currencies with lower correlations to reduce risk
+
+
+  
+    
+  
