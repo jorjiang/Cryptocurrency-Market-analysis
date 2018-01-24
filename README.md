@@ -164,9 +164,9 @@ Here is some example of results
 ## 9. compare any property of several coins in one chart
 
 Examples: 
-![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/marketcap%20of%20btc%20dash%20eth%20etc.png?style=centerme)
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/fees%20of%20btc%20dash%20eth%20xvg.png?style=centerme)
 
-![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/txVolume%20of%20btc%20dash%20eth%20ltc.png?style=centerme)
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/txCount%20of%20btc%20dcr%20zec%20xvg.png?style=centerme)
 
 ![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/volatility%20of%20dcr%20xem%20ltc.png?style=centerme)
 
