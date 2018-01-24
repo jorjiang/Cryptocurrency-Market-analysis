@@ -26,8 +26,8 @@ Time span: from April 2013 or the creation of the currency till 22.01.2018
 
 ### 2. Simple analysis for each individual currency.
   - **Market capitalisation**: A given currency's valuation, i.e., closing price multiplied with circulating supply as given by coinmarketcap. *Please note that this is a controversial metric. for instance some currency like Ripple, the circulating supply is much lower than the total supply, the evaluation of it's marketcap is much lower if calculated with circulating supply, but if calculated with total supply, it will surpass Bitcoin and become the biggest cryptocurrency in the whole market* We did not choose the price as a bench mark, because the price alone does not make much sense without taking the circulation amount into account.
-  - **Return**: The daily logarithmic return of a given currency.
-  - **Volatility**: The annualized volatility of a given currency; based on the logarithmic return from the last 30 days.
+  - **Return**: The daily logarithmic return of a given currency. [More information.](https://en.wikipedia.org/wiki/Rate_of_return#Logarithmic_or_continuously_compounded_return)
+  - **Volatility**: The annualized volatility of a given currency; based on the logarithmic return from the last 30 days. [More information.](https://en.wikipedia.org/wiki/Volatility_(finance))
 
 following are examples for Bitcoin and Dash:
   Example: **Bitcoin and Dash**.
