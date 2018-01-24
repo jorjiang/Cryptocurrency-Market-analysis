@@ -13,11 +13,11 @@ https://trends.google.com/trends/;
 This is still a work in progress. Steps taken so far:
 1. Obtain and clean market data from multipul online databases, includaily following traits (including interpolation for missing data):
 ;
--Daily closing prices;
--Daily trascation Volume;
--Trascation countfees;
--Daily Exchange volume;
--Daily closeing Marketcap;
+  - Daily closing prices;
+  - Daily trascation Volume;
+  - Trascation countfees;
+  - Daily Exchange volume;
+  - Daily closeing Marketcap;
 
 
 
