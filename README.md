@@ -1,7 +1,7 @@
 # Cryptocurrency market analysis
 ## About
 
-Having followed and invested in cryptocurrency market for around 1 year, and running an exchange service via Wechat for chinese users for a while, I want to do some exploring in the data available from different online database ([coinmarketcap](https://coinmarketcap.com), [coinmetrics](https://coinmetrics.io/), and [blockchain.info](https://blockchain.info/charts)) to get more insight and also offer our data analysis service to our customer on our exchange, helping them make better investment decisions:
+Having followed and invested in cryptocurrency market for around 1 year, and running an exchange service via Wechat for chinese users for a while, I want to do some exploring in the data available from different online database ([coinmarketcap](https://coinmarketcap.com), [coinmetrics](https://coinmetrics.io/), and [blockchain.info](https://blockchain.info/charts)) to get more insight and also offer our data analysis service to our customer on our exchange, helping them make better investment decisions.
 
 Also, cryptocurreny market is still in it's infancy, so the market is highly influenced by media and public interest, so we took that into account and did some analysis with historical searching statistics from google trends
 https://trends.google.com/trends/;
@@ -9,13 +9,14 @@ https://trends.google.com/trends/;
 
 ## Progress
 This is still a work in progress. Steps taken so far:
-### 1. Obtain and clean market data from multipul online databases, includaily following traits (including interpolation for missing data):
+### 1. Obtain and clean market data from multiple online databases
+the market data used in this analysis come from: coinmarketcap](https://coinmarketcap.com), [coinmetrics](https://coinmetrics.io/), and [blockchain.info](https://blockchain.info/charts). The data include following traits :
 
   - Daily closing prices;
   - Daily trascation Volume;
   - Trascation countfees;
   - Daily Exchange volume;
-  - Daily closeing Marketcap;
+  - Daily closing Marketcap;
   - Daily transaction fees;
   - Weekly searching data from google trends, under the category "news"
 
