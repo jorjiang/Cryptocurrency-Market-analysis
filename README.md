@@ -12,18 +12,19 @@ https://trends.google.com/trends/;
 ## Progress
 This is still a work in progress. Steps taken so far:
 1. Obtain and clean market data from multipul online databases, includaily following traits (including interpolation for missing data):
-;
+
   - Daily closing prices;
   - Daily trascation Volume;
   - Trascation countfees;
   - Daily Exchange volume;
   - Daily closeing Marketcap;
+  - Daily transaction fees;
 
 
 
-data time span: from April 2013 or the creation of the currency till 22.01.2018
+Data time span: from April 2013 or the creation of the currency till 22.01.2018
 
-2. Use daily closing prices to calculate daily overall market statistics. For the sake of these calculations, the overall market is interpreted as an index/portfolio.
-
-  - **Overall market capitalisation**: The sum of all currency valuations, i.e., closing prices multiplied with circulating supply as given by coinmarketcap. *Please note that this is a controversial metric.*
-  - **Overall market return**: We use logarithmic returns to make daily changes in overall market value easily comparable. [More information.](https://en.wikipedia.org/wiki/Rate_of_return#Logarithmic_or_continuously_compounded_return)
+2. Simple analysis for each individual currency.
+  - **Market capitalisation**: A given currency's valuation, i.e., closing price multiplied with circulating supply as given by coinmarketcap. *Please note that this is a controversial metric.*
+  - **Return**: The daily logarithmic return of a given currency.
+  - **Volatility**: The annualized volatility of a given currency; based on the logarithmic return from the last 30 days.
