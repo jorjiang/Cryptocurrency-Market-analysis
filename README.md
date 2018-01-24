@@ -85,7 +85,20 @@ Here are two examples of correlation matrix of marketcap and fees of all 14 curr
   - because we are still in an booming market, the competetion among currencies are still really low, we don't see any negtively related currencies
   - it is wise to invest in thoes currencies with lower correlations to reduce risk
 
+## 5. correlation of 2 currencies over time
+The market is changing rapidly, thus the relationship of 2 currencies can also change accordingly. For that, it's also nice that we can view this relationship over a period of time. the observation window can be assigned, in this example, we set it to be 120 days, about 4 months, the correlation of a ceritain day is calculated by the data from past 4 months.
 
+2 exampes of correlation over time
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20eth%20120%20days.pngstyle=centerme)
+
+As we can see, the correlation between Bitcoin(btc) and Ethereum(eth) is positive most of the time, but it's strongly negatively related at the end of 2016 and start of 2017. If we search what happed during this period of time, we can see in the Figure (Source: coinmarketcap.com) bellow
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/marketcapshare.png?style=centerme)
+
+That is exactly the time when bitcoin start to lose it's dominace, and the boom of altcoins, since then 100s of billions of dollars of money flew from Bitcoin to altcoins, almost all alt coins are having a negative correlation with Bitcoin at that time. Here is another example: Bitcoin and Dash
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20dash%20120%20days.png?style=centerme)
   
     
   
