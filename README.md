@@ -29,3 +29,5 @@ Data time span: from April 2013 or the creation of the currency till 22.01.2018
   - **Return**: The daily logarithmic return of a given currency.
   - **Volatility**: The annualized volatility of a given currency; based on the logarithmic return from the last 30 days.
 ![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/simple%20market%20analysis_Bitcoin.png?style=centerme)
+
+
