@@ -45,4 +45,4 @@ Here is some Example:
 
 ![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/returns%20of%20btc%20dash%20eth.png?style=centerme)
 
-![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/volitality%20of%20dcr%20xem%20ltc.png?style=centerme)
+![Comparing different currencies directly](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/volatility%20of%20dcr%20xem%20ltc.png?style=centerme)
