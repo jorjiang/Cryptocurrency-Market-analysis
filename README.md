@@ -10,7 +10,7 @@ https://trends.google.com/trends/;
 ## Progress
 This is still a work in progress. Steps taken so far:
 ### 1. Obtain and clean market data from multiple online databases
-the market data used in this analysis come from: coinmarketcap](https://coinmarketcap.com), [coinmetrics](https://coinmetrics.io/), and [blockchain.info](https://blockchain.info/charts). The data include following traits :
+the market data used in this analysis come from: [coinmarketcap](https://coinmarketcap.com), [coinmetrics](https://coinmetrics.io/), and [blockchain.info](https://blockchain.info/charts). The data include following traits :
 
   - Daily closing prices;
   - Daily trascation Volume;
