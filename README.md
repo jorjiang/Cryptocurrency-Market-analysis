@@ -168,4 +168,4 @@ Examples:
 
 ![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/pngs/txCount%20of%20btc%20dcr%20zec%20xvg.png?style=centerme)
 
-![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/pngs/volatility%20of%20dcr%20xem%20ltc.png?style=centerme)
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/pngs/txVolume%20of%20btc%20dash%20eth%20ltc.png?style=centerme)
