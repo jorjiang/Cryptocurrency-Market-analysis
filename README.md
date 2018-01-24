@@ -90,7 +90,7 @@ The market is changing rapidly, thus the relationship of 2 currencies can also c
 
 2 exampes of correlation over time
 
-![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20eth%20120%20days.pngstyle=centerme)
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20eth%20120%20days.png?style=centerme)
 
 As we can see, the correlation between Bitcoin(btc) and Ethereum(eth) is positive most of the time, but it's strongly negatively related at the end of 2016 and start of 2017. If we search what happed during this period of time, we can see in the Figure (Source: coinmarketcap.com) bellow
 
@@ -100,5 +100,78 @@ That is exactly the time when bitcoin start to lose it's dominace, and the boom 
 
 ![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/return%20of%20btc%20dash%20120%20days.png?style=centerme)
   
-    
+## 6. Compare the growth rate of all currencies by several properties
+the growth rate is calculated by how many times a currency has grown since the beginning of 2013 or it's creation till today, the start number and recent numbers are calculated as the average across 30 days to avoid randomness. 
+
+here is one example, we compared the growth in transaction volume and marketcap in all 14 coins, we can see, Verge coin(xvg) has the biggest growth among all coins, and it's also grown rapidly in price recently. doge and etc has some growth in price, but had hardly any growth in transacion value, normally we do not recomend in thoes kind of coins, because transaction volume is a good metrics to evaluate the mass adoption and utility, if a currency has high price but the transaction volume has not grown accordingly, it's very likely this coin's marketcap is driven by news and emotions and not the foundamental value and utility.
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/performance_txVolume_marketcap_current.marketcap.png?style=centerme)
+
+The size of the circle are set default as current marketcap, but can also be set as any properties such as age of a currency (calculated in days), for example:
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/performance_txVolume_marketcap_age.png?style=centerme)
+As we can see, some currencies, like eth and xem has a greater growth than bitcoin despite it is much younger
+
+another example of two different properties:
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/performance_exchangeVolume_marketcap_current.marketcap.png?style=centerme)
+
+## 7. Correlation of two properties of each currency
+Trasaction volume is a very important property to evaluate a currency, since it is very important to gain mass adoption in crypto market, who has mass adoption has network effect in its favour and will dominant, that's why we think Transaction volume is a better property to evaluate the performance of a currency.
+To observe how strong the marketcap of a currency is related to a it's trasaction volume is a good way to see if the marketcap growth is backed by it's utility or it's mostly a hype. In another word, are people really using the network, though the usage, the tocken gained its growth in price, or it's mostly people speculating on the price.
+
+here are some examples:
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_comparison_btc_txVolume_marketcap.png?style=centerme)
+
+Bitcoin is the oldest currency and has the biggest network among all the currencies. it's price it's mostly driven by the demand, and it's highly related to transaction volume
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_comparison_eth_txVolume_marketcap.png?style=centerme)
+
+Ethereum undoutedly has the most utility among all currencies, people need to ether tocken to exchange data on the platform and there are more and more projects running on it, the demand for Ether is increasing every day, and we can see the price is also strongly linked to the transaction Volume
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_comparison_dash_txVolume_marketcap.png?style=centerme)
+
+Dash is a younger currency provide faster transaction and many other traits, but it's price is going much faster than it's transaction value, it's a promissing currency, but there is more speculating factor in the price growth. we do not recommend to entry in such a high price
+
+bellow we put transaction volume and marketcap of the 3 coins above in one chart, we can see the same result as described above
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_com_overtime_btc_txVolume_marketcap.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_com_overtime_eth_txVolume_marketcap.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_com_overtime_dash_txVolume_marketcap.png?style=centerme)
+
+
+## 8. Public interest and market
+Cryptocurrency market is still a very young market, surely there are a lot of bubbles, and the price is very emotion and news driven, everyday there is some coin gain 200% in a single day, just because someone tweeted something good about it.
+
+In this part we are going investigate the relationships between public interest and market property of a currency.
+To messure public interest, we use the data provide by google trends, in order to use the data more conveniently, instead of searching and downloading every data indiviually, we use the packege gtrendR(https://github.com/PMassicotte/gtrendsR).
+
+because the searching and extra data takes a long time, it's better to run a seperate file "gTrendsData.R" before any analysis to create a .csv data under the project folder instead of asking from google everytime.
+
+Here is some example of results
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/popularity%20of%20btc%20eth%20dash.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/popularity.vs.market_btc_marketcap.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/popularity.vs.market_btc_txVolume.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/popularity.vs.market_dash_marketcap.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/prop_com_overtime_eth_txVolume_marketcap.png?style=centerme)
+
+## 9. compare any property of several coins in one chart
+
+Examples: 
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/marketcap%20of%20btc%20dash%20eth%20etc.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/txVolume%20of%20btc%20dash%20eth%20ltc.png?style=centerme)
+
+![Bitcoin statistics](https://github.com/jorjiang/Cryptocurrency-Market-analysis/blob/master/volatility%20of%20dcr%20xem%20ltc.png?style=centerme)
+
+
+
+
+
   
