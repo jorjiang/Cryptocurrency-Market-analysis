@@ -12,7 +12,7 @@ the market data used in this analysis come from: [coinmarketcap](https://coinmar
 
   - Daily closing prices;
   - Daily trascation Volume;
-  - Trascation countfees;
+  - Trascation counts;
   - Daily Exchange volume;
   - Daily closing Marketcap;
   - Daily transaction fees;
